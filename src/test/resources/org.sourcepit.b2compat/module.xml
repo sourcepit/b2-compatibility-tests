@@ -24,8 +24,9 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<tycho.version>0.21.0</tycho.version>
-		<b2.version>0.18.0-SNAPSHOT</b2.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<tycho.version>${tycho.version}</tycho.version>
+		<b2.version>${b2.version}</b2.version>
 	</properties>
 
 	<repositories>
@@ -35,19 +36,25 @@
 			<layout>p2</layout>
 		</repository>
 	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>srcpit-public</id>
+			<url>http://nexus.sourcepit.org/content/groups/public/</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.sourcepit.b2</groupId>
 				<artifactId>b2-maven-plugin</artifactId>
-				<version>${b2.version}</version>
+				<version>\${b2.version}</version>
 				<extensions>true</extensions>
 			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
-				<version>${tycho.version}</version>
+				<version>\${tycho.version}</version>
 				<configuration>
 					<resolver>p2</resolver>
 					<environments>
@@ -64,7 +71,6 @@
 					</environments>
 				</configuration>
 			</plugin>
-
 		</plugins>
 	</build>
 
