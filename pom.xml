@@ -8,13 +8,21 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.version>3.2.3</maven.version>
-		<tycho.version>0.21.0</tycho.version>
-		<b2.version>0.18.0-SNAPSHOT</b2.version>
-		<b2-bootstrapper.version>0.18.0-SNAPSHOT</b2-bootstrapper.version>
-		
+
+		<!-- Properties == axis names in Jenkins matrix. -->
+		<maven>3.2.3</maven>
+		<tycho>0.21.0</tycho>
+		<b2>0.18.0-SNAPSHOT</b2>
+		<b2_bootstrapper>0.18.0-SNAPSHOT</b2_bootstrapper>
+
+		<!-- Map "human readable" axis name properties to version properties. -->
+		<maven.version>${maven}</maven.version>
+		<tycho.version>${tycho}</tycho.version>
+		<b2.version>${b2}</b2.version>
+		<b2-bootstrapper.version>${b2_bootstrapper}</b2-bootstrapper.version>
+
 		<it.dir>${project.build.directory}/work</it.dir>
-		
+
 		<it.env.M2_HOME>${it.dir}/apache-maven-${maven.version}</it.env.M2_HOME>
 		<it.env.MAVEN_OPTS>-Xmx256m -Dtycho.testArgLine=-Xmx128m</it.env.MAVEN_OPTS>
 		<it.env.JAVA_HOME>${java.home}</it.env.JAVA_HOME>
