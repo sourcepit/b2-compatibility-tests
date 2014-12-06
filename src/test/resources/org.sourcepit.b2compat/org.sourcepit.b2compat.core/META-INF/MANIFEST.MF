@@ -6,3 +6,4 @@ Bundle-Activator: org.sourcepit.b2compat.core.Activator
 Require-Bundle: org.eclipse.core.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Export-Package: org.sourcepit.b2compat.core

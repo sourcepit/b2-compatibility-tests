@@ -4,6 +4,9 @@ Bundle-SymbolicName: org.sourcepit.b2compat.tests
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.sourcepit.b2compat.tests.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.junit;bundle-version="4.0.0",
+ org.sourcepit.b2compat.core;bundle-version="1.0.0",
+ org.sourcepit.b2compat.ui;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
