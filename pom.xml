@@ -7,35 +7,58 @@
 	<packaging>pom</packaging>
 
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.version>3.2.3</maven.version>
+		<tycho.version>0.21.0</tycho.version>
+		<b2.version>0.18.0-SNAPSHOT</b2.version>
+		<b2-bootstrapper.version>0.18.0-SNAPSHOT</b2-bootstrapper.version>
+		
+		<it.dir>${project.build.directory}/work</it.dir>
+		
+		<it.env.M2_HOME>${it.dir}/apache-maven-${maven.version}</it.env.M2_HOME>
+		<it.env.JAVA_HOME>${java.home}</it.env.JAVA_HOME>
+		<it.env.PATH>${it.env.JAVA_HOME}/bin${path.separator}${it.env.M2_HOME}/bin</it.env.PATH>
 	</properties>
 
+	<repositories>
+		<repository>
+			<id>srcpit-public</id>
+			<url>http://nexus.sourcepit.org/content/groups/public/</url>
+		</repository>
+	</repositories>
+
 	<build>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<targetPath>${it.dir}/</targetPath>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>*/module.xml</exclude>
+				</excludes>
+			</testResource>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<targetPath>${it.dir}/</targetPath>
+				<filtering>true</filtering>
+				<includes>
+					<include>*/module.xml</include>
+				</includes>
+			</testResource>
+		</testResources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-scm-plugin</artifactId>
-				<version>1.9.2</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.scm</groupId>
-						<artifactId>maven-scm-provider-jgit</artifactId>
-						<version>1.9.2</version>
-					</dependency>
-				</dependencies>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
 				<executions>
 					<execution>
-						<id>checkout b2-integration-tests</id>
-						<phase>generate-resources</phase>
+						<phase>pre-integration-test</phase>
 						<goals>
-							<goal>checkout</goal>
+							<goal>testResources</goal>
 						</goals>
 						<configuration>
-							<basedir>${project.build.directory/checkout}</basedir>
-							<connectionUrl>scm:git:git@github.com:sourcepit/b2.git</connectionUrl>
-							<providerImplementations>
-								<git>jgit</git>
-							</providerImplementations>
+							<escapeString>\</escapeString>
 						</configuration>
 					</execution>
 				</executions>
@@ -46,8 +69,8 @@
 				<version>2.9</version>
 				<executions>
 					<execution>
-						<id>unpack</id>
-						<phase>package</phase>
+						<id>install-maven</id>
+						<phase>pre-integration-test</phase>
 						<goals>
 							<goal>unpack</goal>
 						</goals>
@@ -60,6 +83,25 @@
 									<type>tar.gz</type>
 									<classifier>bin</classifier>
 									<overWrite>true</overWrite>
+									<outputDirectory>${it.dir}</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+						<id>install-b2-bootstrapper</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.sourcepit.b2</groupId>
+									<artifactId>b2-bootstrapper</artifactId>
+									<version>${b2-bootstrapper.version}</version>
+									<overWrite>true</overWrite>
+									<outputDirectory>${it.env.M2_HOME}/lib/ext</outputDirectory>
 								</artifactItem>
 							</artifactItems>
 						</configuration>
@@ -79,43 +121,16 @@
 						</goals>
 						<configuration>
 							<environmentVariables>
-								<M2_HOME>${project.build.directory}/dependency/apache-maven-${maven.version}</M2_HOME>
+								<M2_HOME>${it.env.M2_HOME}</M2_HOME>
+								<JAVA_HOME>${it.env.JAVA_HOME}</JAVA_HOME>
+								<PATH>${it.env.PATH}</PATH>
 							</environmentVariables>
-							<workingDirectory>${project.build.directory}/checkout/b2-examples</workingDirectory>
-							<executable>mvn</executable>
-							<arguments>
-								<argument>-B</argument>
-								<argument>clean</argument>
-								<argument>pre-integration-test</argument>
-								<argument>-P</argument>
-								<argument>its</argument>
-								<argument>-Dmaven.version=${maven.version}</argument>
-								<argument>-Denforcer.skip=true</argument>
-								<argument>-Dit.repo.url=file://${project.build.directory}/it-repository</argument>
-							</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>b2-integration-tests</id>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<environmentVariables>
-								<M2_HOME>${project.build.directory}/dependency/apache-maven-${maven.version}</M2_HOME>
-							</environmentVariables>
-							<workingDirectory>${project.build.directory}/checkout/b2-integration-tests</workingDirectory>
+							<workingDirectory>${it.dir}/org.sourcepit.b2compat</workingDirectory>
 							<executable>mvn</executable>
 							<arguments>
 								<argument>-B</argument>
 								<argument>clean</argument>
 								<argument>verify</argument>
-								<argument>-P</argument>
-								<argument>its</argument>
-								<argument>-Dit.maven.version=${maven.version}</argument>
-								<argument>-Denforcer.skip=true</argument>
-								<argument>-Dit.repo.url=file://${project.build.directory}/it-repository</argument>
 							</arguments>
 						</configuration>
 					</execution>
