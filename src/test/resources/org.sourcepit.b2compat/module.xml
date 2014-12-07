@@ -49,6 +49,10 @@
 			<url>http://download.eclipse.org/releases/luna</url>
 			<layout>p2</layout>
 		</repository>
+		<repository>
+			<id>srcpit-public</id>
+			<url>http://nexus.sourcepit.org/content/groups/public/</url>
+		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
