@@ -22,6 +22,7 @@
 		<b2-bootstrapper.version>${b2_bootstrapper}</b2-bootstrapper.version>
 
 		<it.dir>${project.build.directory}/work</it.dir>
+		<it.memArgs>-Xmx256m -Dtycho.testArgLine=-Xmx128m</it.memArgs>
 
 		<it.env.M2_HOME>${it.dir}/apache-maven-${maven.version}</it.env.M2_HOME>
 		<it.env.MAVEN_OPTS>-Xmx256m -Dtycho.testArgLine=-Xmx128m -Dmaven.repo.local=${maven.repo.local}</it.env.MAVEN_OPTS>
@@ -35,6 +36,27 @@
 			<url>http://nexus.sourcepit.org/content/groups/public/</url>
 		</repository>
 	</repositories>
+
+	<profiles>
+		<profile>
+			<id>jdk-1.7</id>
+			<activation>
+				<jdk>1.7</jdk>
+			</activation>
+			<properties>
+				<it.memArgs>-Xmx256m -XX:MaxPermSize=128m -Dtycho.testArgLine=-Xmx128m</it.memArgs>
+			</properties>
+		</profile>
+		<profile>
+			<id>jdk-1.6</id>
+			<activation>
+				<jdk>1.6</jdk>
+			</activation>
+			<properties>
+				<it.memArgs>-Xmx256m -XX:MaxPermSize=128m -Dtycho.testArgLine=-Xmx128m</it.memArgs>
+			</properties>
+		</profile>
+	</profiles>
 
 	<build>
 		<testResources>
