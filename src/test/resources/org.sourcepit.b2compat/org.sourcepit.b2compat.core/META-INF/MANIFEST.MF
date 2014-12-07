@@ -3,7 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.sourcepit.b2compat.core
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.sourcepit.b2compat.core.Activator
-Require-Bundle: org.eclipse.core.runtime
+Require-Bundle: org.eclipse.core.runtime,
+ joda-time;bundle-version="[2.6.0,2.7.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.sourcepit.b2compat.core

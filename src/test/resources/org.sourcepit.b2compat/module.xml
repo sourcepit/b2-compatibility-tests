@@ -27,7 +27,21 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho.version>${tycho.version}</tycho.version>
 		<b2.version>${b2.version}</b2.version>
+		<osgifier.overrideNativeBundles>true</osgifier.overrideNativeBundles>
+		<osgifier.excludedExecutionEnvironments>
+			JavaSE/compact1-1.8,
+			JavaSE/compact2-1.8,
+			JavaSE/compact3-1.8
+		</osgifier.excludedExecutionEnvironments>
 	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.6</version>
+		</dependency>
+	</dependencies>
 
 	<repositories>
 		<repository>
@@ -50,6 +64,15 @@
 				<artifactId>b2-maven-plugin</artifactId>
 				<version>\${b2.version}</version>
 				<extensions>true</extensions>
+				<configuration>
+					<extensions>
+						<extension>
+							<groupId>org.sourcepit.b2</groupId>
+							<artifactId>b2-maven-dependencies-site-generator</artifactId>
+							<version>\${b2.version}</version>
+						</extension>
+					</extensions>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>

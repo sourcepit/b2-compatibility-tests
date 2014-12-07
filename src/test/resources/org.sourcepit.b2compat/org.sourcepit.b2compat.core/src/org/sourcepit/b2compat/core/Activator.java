@@ -16,6 +16,10 @@
 
 package org.sourcepit.b2compat.core;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Plugin;
+import org.eclipse.core.runtime.Status;
+import org.joda.time.DateTime;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
@@ -24,7 +28,7 @@ import org.osgi.framework.BundleContext;
  * 
  * @author Bernd Vogt <bernd.vogt@sourcepit.org>
  */
-public class Activator implements BundleActivator
+public class Activator extends Plugin implements BundleActivator
 {
    // The plug-in ID
    public static final String PLUGIN_ID = "org.sourcepit.b2compat.core"; //$NON-NLS-1$
@@ -44,6 +48,8 @@ public class Activator implements BundleActivator
    public void start(BundleContext bundleContext) throws Exception
    {
       Activator.context = bundleContext;
+      super.start(bundleContext);
+      getLog().log(new Status(IStatus.OK, PLUGIN_ID, "Up and running since " + DateTime.now()));
    }
 
    /*
@@ -53,6 +59,8 @@ public class Activator implements BundleActivator
     */
    public void stop(BundleContext bundleContext) throws Exception
    {
+      getLog().log(new Status(IStatus.OK, PLUGIN_ID, "Down since " + DateTime.now()));
+      super.stop(bundleContext);
       Activator.context = null;
    }
 
