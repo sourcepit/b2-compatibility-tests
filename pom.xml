@@ -166,7 +166,7 @@
 								<MAVEN_OPTS>${it.env.MAVEN_OPTS}</MAVEN_OPTS>
 							</environmentVariables>
 							<workingDirectory>${it.dir}/org.sourcepit.b2compat</workingDirectory>
-							<executable>mvn</executable>
+							<executable>${it.env.M2_HOME}/bin/mvn</executable>
 							<arguments>
 								<argument>-B</argument>
 								<argument>clean</argument>
